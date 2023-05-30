@@ -97,41 +97,75 @@ def get_player_move(board):
 
 def choose_computer_move(board):
     """
-    This function picks a move for computer and also validates it by checking
+    This function picks a move for the computer and also validates it by checking
     if the cell is empty or not
     """
-    computer = None
-    while computer is None:
+    while True:
         try:
-            # if player is about to win do not let them win 
-            if board[0][0] == "X" and board[0][1] == "X" :
-                row = 0 
-                col = 2
-                return row, col
-            elif board[0][0] == "X" and board[0][2] == "X":
-                row = 0
-                col = 1
-                return row, col
-            elif board[0][1] == "X" and board[0][2] == "X":
-                row = 0
-                col = 0
-                return row, col
-            else:
-                # generate random number from 1-9
-                computer = random.randint(1, 9)
+            # Check if player is about to win and block their winning move
+            # check row
+            for row in range(3):
+                if board[row][0] == "X" and board[row][1] == "X" and board[row][2] == " ":
+                    return row, 2
+                if board[row][0] == "X" and board[row][2] == "X" and board[row][1] == " ":
+                    return row, 1
+                if board[row][1] == "X" and board[row][2] == "X" and board[row][0] == " ":
+                    return row, 0
 
-            # convert the number into row and colum to fill in "O"
+            # check column 
+            for col in range(3):
+                if board[0][col] == "X" and board[1][col] == "X" and board[2][col] == " ":
+                    return 2, col
+                if board[0][col] == "X" and board[2][col] == "X" and board[1][col] == " ":
+                    return  1, col
+                if board[1][col] == "X" and board[2][col] == "X" and board[0][col] == " ":
+                    return 0, col
+            
+            # check diagnol
+            if board[0][0] == " " and board[1][1] == "X" and board[2][2] == "X":
+                return 0, 0
+            elif board[0][0] == "X" and board[1][1] == " " and board[2][2] == "X":
+                return 1, 1
+            elif board[0][0] == "X" and board[1][1] == "X" and board[2][2] == " ":
+                return 2, 2
+            
+            elif board[0][2] == " " and board[1][1] == "X" and board[2][0] == "X":
+                return 0, 2
+            elif board[0][2] == "X" and board[1][1] == " " and board[2][0] == "X":
+                return 1 ,1
+            elif board[0][2] == "X" and board[1][1] == "X" and board[2][0] == " ":
+                return 2, 0
+            
+            # if any corner is empty put the mark in the corner
+            if board[0][0] == " ":
+                return 0, 0
+            elif board[0][2] == " ":
+                return 0, 2
+            elif board[2][0] == " ":
+                return 2, 0
+            elif board[2][2] == " ":
+                return 2, 2
+            elif board[1][1] == " ":
+                return 1, 1
+            
+            # Generate a random move
+            computer = random.randint(1, 9)
+
+            # Convert the number into row and column to fill in "O"
             row = (computer - 1) // 3
             col = (computer - 1) % 3
-            # check if cell is empty or not
+
+            # Check if the cell is empty or not
             if board[row][col] != " ":
-                computer = None
+                continue
             else:
                 return row, col
 
-        # catch error in case of any
+        # Handle specific exceptions if necessary
+        except IndexError as error:
+            print(f"IndexError: {error}")
         except Exception as error:
-            print(f"Error:{error}")
+            print(f"Error: {error}")
 
 
 def check_for_win(board, mark):
