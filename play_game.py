@@ -23,7 +23,7 @@ def main():
             print('Thank you for playing the "Unbeatable Noughts and Crosses" game.')
             print('Good bye')
             print("-----------------------------------------------------------------")
-        return
+            return
         
 # Program execution begins here
 if __name__ == '__main__':

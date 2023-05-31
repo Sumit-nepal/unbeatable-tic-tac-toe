@@ -62,7 +62,7 @@ def get_player_move(board):
     """
 
     # prompt the user for input
-    user = None  # initialize terminate with initial value of False
+    user = None  # initialize user with initial value of False
     while user is None:
         try:
             # prompt user where they want to put the X
@@ -79,9 +79,9 @@ def get_player_move(board):
 
                 # check if cell is already filled or not
                 if board[row][col] != " ":
-                    print("|-------------------------|")
+                    print("--------------------------")
                     print("place is already filled!!!")
-                    print("|-------------------------|")
+                    print("--------------------------")
                     user = None
                 else:  # if user input is valid return row and column
                     return row, col
